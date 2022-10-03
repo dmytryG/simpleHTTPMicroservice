@@ -6,6 +6,12 @@ class ListDB(BasicDAO):
 
     users = []
 
+    @staticmethod
+    def get_instance():
+        if ListDB.instance is None:
+            ListDB.instance = ListDB()
+        return ListDB.instance
+
     async def add_user(self, user: User) -> None:
         for local_user in self.users:
             if local_user.name == user.name:
@@ -27,3 +33,7 @@ class ListDB(BasicDAO):
                     raise Exception("Incorrect password")
 
         raise Exception("User not found")
+
+    async def getAllUsers(self, user: User) -> list[User]:
+        return self.users
+
