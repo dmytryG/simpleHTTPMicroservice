@@ -12,13 +12,13 @@ class ListDB(BasicDAO):
                 raise Exception("User already registered")
         self.users.append(user)
 
-    def retrieve_user(self, user_name) -> User:
+    async def retrieve_user(self, user_name) -> User:
         for local_user in self.users:
             if local_user.name == user_name:
                 return local_user
         raise Exception("User not found")
 
-    def login(self,  user: User) -> bool:
+    async def login(self,  user: User) -> bool:
         for local_user in self.users:
             if local_user.name == user.name:
                 if local_user.password == user.password:
