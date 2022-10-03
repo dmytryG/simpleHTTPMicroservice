@@ -1,6 +1,7 @@
 from aiohttp.web_routedef import Request
 from aiohttp import web
 
+from Models.Response import Response
 from Models.User import User
 from installer import db
 
@@ -18,6 +19,6 @@ async def register(request: Request):
         await db.add_user(user)
 
     except Exception as e:
-        return web.Response(text="FAILED {e}".format(e=e))
+        return web.Response(text=Response(True, str(e)).toJSON())
 
-    return web.Response(text="SUCCESS")
+    return web.Response(text=Response(False, None).toJSON())
