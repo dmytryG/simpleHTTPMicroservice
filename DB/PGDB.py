@@ -3,6 +3,7 @@ from asyncpg import Record
 
 from DB.BasicDAO import BasicDAO
 from Models.User import User
+from config import DB_PASSWORD, DB_USER, DB_NAME, DB_HOST
 
 
 class PGDB(BasicDAO):
@@ -14,8 +15,8 @@ class PGDB(BasicDAO):
     async def get_instance():
         if BasicDAO.instance is None:
             BasicDAO.instance = PGDB()
-            BasicDAO.instance.connection = await asyncpg.connect(user="postgres", password="postgres",
-                                                                 database="simpleHTTPMicroservice", host="127.0.0.1")
+            BasicDAO.instance.connection = await asyncpg.connect(user=DB_USER, password=DB_PASSWORD,
+                                                                 database=DB_NAME, host=DB_HOST)
 
         if BasicDAO.instance.connection.is_closed() or BasicDAO.instance.connection is None:
             raise Exception("Can not connect to DB")
@@ -51,6 +52,5 @@ class PGDB(BasicDAO):
             "SELECT * FROM \"Users\";")
 
         result = list(map(lambda user: User(user.get("user_name"), user.get("user_password")), result))
-        print(result)
 
         return result
