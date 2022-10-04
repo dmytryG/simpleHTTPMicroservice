@@ -5,15 +5,13 @@ from DB.BasicDAO import BasicDAO
 from Models.Response import Response
 
 
-async def retrieve(request: Request):
+async def all_users(request: Request):
     try:
         db = await BasicDAO.get_instance()
 
-        user_name = request.query['user_name']
+        users = await db.get_all_users()
 
-        user = await db.retrieve_user(user_name)
-
-        return web.Response(text=Response(False, user).to_JSON())
+        return web.Response(text=Response(False, users).to_JSON())
 
     except Exception as e:
         return web.Response(text=Response(True, str(e)).to_JSON())

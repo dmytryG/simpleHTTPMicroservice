@@ -3,17 +3,20 @@ from abc import abstractmethod, ABCMeta
 from Models.User import User
 
 
-class BasicDAO():
+class BasicDAO:
     __metaclass__ = ABCMeta
 
     instance = None
 
     @staticmethod
     async def get_instance():
-        """Add user to database (register)"""
+        if BasicDAO.instance is None:
+            raise Exception("You have to initialize and datasource before call get_instance()")
+        else:
+            return BasicDAO.instance
 
     @abstractmethod
-    async def add_user(self,  user: User) -> None:
+    async def add_user(self, user: User):
         """Add user to database (register)"""
 
     @abstractmethod
@@ -21,9 +24,9 @@ class BasicDAO():
         """Gets user data"""
 
     @abstractmethod
-    async def login(self,  user: User) -> bool:
+    async def login(self, user: User) -> bool:
         """Checking if user_name exists and password is correct"""
 
     @abstractmethod
-    async def getAllUsers(self, user: User) -> list[User]:
+    async def get_all_users(self) -> list[User]:
         """Returning all the users"""

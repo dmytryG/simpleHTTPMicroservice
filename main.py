@@ -1,7 +1,10 @@
 from aiohttp import web
 from aiohttp.web_routedef import Request
 
+from DB.PGDB import PGDB
+
 # Handler imports here
+from Handlers.AllUsersHandler import all_users
 from Handlers.LoginHandler import login
 from Handlers.RegistrationHandler import register
 from Handlers.RetrieveUserHandler import retrieve
@@ -20,11 +23,18 @@ async def handle(request: Request):
         return web.Response(text="Hello, world!")
 
 
+async def on_startup(app):
+    print("HTTP server is running")
+    await PGDB.get_instance()
+
+
 app = web.Application()
+app.on_startup.append(on_startup)
 app.add_routes([web.get('/', handle),
                 web.get('/register', register),
                 web.get('/retrieve', retrieve),
-                web.get('/login', login)])
+                web.get('/login', login),
+                web.get('/all', all_users)])
 
 if __name__ == '__main__':
     web.run_app(app)
