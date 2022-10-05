@@ -6,7 +6,7 @@ class ListDB(BasicDAO):
     users = []
 
     @staticmethod
-    def get_instance():
+    async def get_instance():
         if BasicDAO.instance is None:
             BasicDAO.instance = ListDB()
         return BasicDAO.instance

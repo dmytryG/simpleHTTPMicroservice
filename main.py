@@ -1,7 +1,7 @@
 from aiohttp import web
 from aiohttp.web_routedef import Request
 
-from DB.PGDB import PGDB
+from DB.FactoryDAO import FactoryDAO
 
 # Handler imports here
 from Handlers.AllUsersHandler import all_users
@@ -25,7 +25,7 @@ async def handle(request: Request):
 
 async def on_startup(app):
     print("HTTP server is running")
-    await PGDB.get_instance()
+    await FactoryDAO.get_instance()
 
 
 app = web.Application()
