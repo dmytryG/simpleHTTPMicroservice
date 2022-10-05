@@ -11,6 +11,6 @@ class FactoryDAO:
 
     @staticmethod
     async def get_instance():
-        if BasicDAO.instance is None:
+        if BasicDAO._instance is None:
             await getattr(sys.modules[__name__], DAO_CLASS).get_instance()
-        return BasicDAO.instance
+        return BasicDAO._instance

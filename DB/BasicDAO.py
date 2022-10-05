@@ -6,14 +6,14 @@ from Models.User import User
 class BasicDAO:
     __metaclass__ = ABCMeta
 
-    instance = None
+    _instance = None
 
     @staticmethod
     async def get_instance():
-        if BasicDAO.instance is None:
+        if BasicDAO._instance is None:
             raise Exception("You have to initialize and datasource before call get_instance()")
         else:
-            return BasicDAO.instance
+            return BasicDAO._instance
 
     @abstractmethod
     async def add_user(self, user: User):
